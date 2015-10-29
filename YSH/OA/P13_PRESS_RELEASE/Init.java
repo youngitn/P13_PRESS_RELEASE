@@ -1,9 +1,5 @@
 package YSH.OA.P13_PRESS_RELEASE;
 import jcx.jform.hproc;
-import java.io.*;
-import java.util.*;
-import jcx.util.*;
-import jcx.html.*;
 import jcx.db.*;
 
 public class Init extends hproc{ 

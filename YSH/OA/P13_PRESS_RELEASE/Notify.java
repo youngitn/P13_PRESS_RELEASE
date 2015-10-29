@@ -3,7 +3,7 @@ import jcx.jform.bNotify;
 
 import java.util.*;
 
-import jcx.util.*;
+import jcx.util.*; 
 import jcx.db.*; 
 
 import com.ysp.service.BaseService;
@@ -13,7 +13,7 @@ public class Notify extends bNotify{
 	BaseService service;
 	public void actionPerformed(String value)throws Throwable{
 		
-		service = new BaseService(this);
+		service = new BaseService();
 		//get sign people 123
 		Vector<?> vid = getEngagedPeople();
 		if(vid.size()==0) return;
@@ -28,9 +28,9 @@ public class Notify extends bNotify{
 		
 		String[][] ret = t.queryFromPool(sqlc);  
 		
-		BaseService bs = new BaseService(this);
-		bs.getUserInfoBean(EMPID);
-		MailService mail = new MailService(bs);
+		
+		service.getUserInfoBean(EMPID);
+		MailService mail = new MailService(service);
 
 		Vector<String> V2 = new Vector<String>();
 		for(int i=0;i<vid.size();i++){
@@ -58,25 +58,27 @@ public class Notify extends bNotify{
 		if (backString[0][0].contains("退簽")){
 			backTitleString = "已退簽";
 			backMemoSring = "簽核意見:"+getMemo()+"\r\n";
+		}else{
+			backTitleString = "並請進入eHR系統簽核";
 		}
-		String title = "("+EMPID+")"+name+"之新聞稿發佈申請單( "+PNO+" ) "+backTitleString;
+		String title = "("+EMPID+")"+name+"之新聞稿發佈申請單( "+PNO+" ). "+backTitleString;
 		String content = "";
-		content += "主旨:"+ title+"\r\n";
+		content += "主旨:"+ title+"<br>";
 		
 		//在收件人文字中 排除admin
 		if  (vid.indexOf("admin") >= 0){
 			vid.remove("admin");
 		}
-		content += "收件人:"+((String)vid.elementAt(0)).trim()+"-"+getName((String)vid.elementAt(0))+"\r\n";
-		content += "申請人:"+EMPID.trim()+"-"+name.trim()+"\r\n";
+		content += "收件人:"+((String)vid.elementAt(0)).trim()+"-"+getName((String)vid.elementAt(0))+"<br>";
+		content += "申請人:"+EMPID.trim()+"-"+name.trim()+"<br>";
 		
-		content += "公司名稱:"+ret[0][0]+"\r\n"; 
+		content += "公司名稱:"+ret[0][0]+"<br>"; 
 
-		content += "簽核網址:"+HRADDR.trim()+"\r\n";
+		content += "簽核網址:<a href=\""+HRADDR.trim()+"\">按此連結</a><br>";
 		content += backMemoSring;
 		String usr[] = ((String[]) V2.toArray(new String[0]));
 		
-		String sendRS = mail.sendMailbccUTF8(usr, title, content, null, "", "text/plain");
+		String sendRS = mail.sendMailbccUTF8(usr, title, content, null, "", "text/html");
 
 		if (sendRS.trim().equals("")){
 			message("EMAIL已寄出通知");
