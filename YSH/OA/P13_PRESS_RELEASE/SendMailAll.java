@@ -15,6 +15,7 @@ import com.ysp.service.BaseService;
 import com.ysp.service.MailService;
 
 public class SendMailAll extends bProcFlow {
+	
 	public boolean action(String value) throws Throwable {
 		// 回傳值為 true 表示執行接下來的流程處理
 		// 回傳值為 false 表示接下來不執行任何流程處理
@@ -79,11 +80,13 @@ public class SendMailAll extends bProcFlow {
 			}
 			
 		}
+		
 		if (isEmailAllSend != 0) {
 			message("EMAIL寄出失敗");
 			return false;
 			
 		}
+		
 		message("EMAIL已寄出通知");
 		return true;
 		
@@ -94,6 +97,7 @@ public class SendMailAll extends bProcFlow {
 	public String getInformation() {
 		return "---------------\u6838\u51c6.preProcess()----------------";
 	}
+	
 	public String[] getAllApprovePeople() {
 		String vid[][]= getFlowHistory();
 		String ausr[] = new String[vid.length];
