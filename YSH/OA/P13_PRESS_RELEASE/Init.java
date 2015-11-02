@@ -7,10 +7,10 @@ public class Init extends hproc{
 		// 可自定HTML版本各欄位的預設值與按鈕的動作 
 		// 傳入值 value 
 		if (POSITION == 5){
-			
-			setVisible("EDIT",true);
-			setVisible("SEND",false);
-			talk t = getTalk();
+						
+		setVisible("SEND",false);
+		setVisible("QUERYPAGE",false);
+		talk t = getTalk();
 		String EMPID = getValue("EMPID");
 		String sql = "select HECNAME,DEPT_NO,DEP_NAME,CPNYID from USER_INFO_VIEW where EMPID = '"+EMPID.trim()+"'";
 		String[][] ret = t.queryFromPool(sql);
@@ -30,7 +30,7 @@ public class Init extends hproc{
 		setValue("DOWLOAD","<a href=\""+getDownloadURL(FF.trim())+"\">附件下載</a>");
 			
 		}else{
-			/*ss
+			/*
 			talk t = getTalk();
 		String EMPID = getUser();
 		String sql = "select HECNAME,DEPT_NO,DEP_NAME,CPNYID from USER_INFO_VIEW where EMPID = '"+EMPID.trim()+"'";

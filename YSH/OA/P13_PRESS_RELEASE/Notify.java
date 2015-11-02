@@ -14,7 +14,7 @@ public class Notify extends bNotify{
 	public void actionPerformed(String value)throws Throwable{
 		
 		service = new BaseService();
-		//get sign people 123
+		//get sign people 
 		Vector<?> vid = getEngagedPeople();
 		if(vid.size()==0) return;
 		String PNO = getValue("PNO").trim();		
@@ -27,8 +27,7 @@ public class Notify extends bNotify{
 		String sqlc = "select COCNAME from COMPANY where CPNYID = '"+convert.ToSql(CPNYID)+"'";
 		
 		String[][] ret = t.queryFromPool(sqlc);  
-		
-		
+		 
 		service.getUserInfoBean(EMPID);
 		MailService mail = new MailService(service);
 
@@ -49,7 +48,10 @@ public class Notify extends bNotify{
 		String sender=(String)get("SYSTEM.SEMAIL");
 		if(sender==null) sender="admin@interinfo.com.tw";
 		
-		String HRADDR = (String)get("SYSTEM.HRADDR");
+		//get sign-page link url. 
+		sqlc = "SELECT HRADDR FROM HRSYS";
+		String[][] HRADDR = t.queryFromPool(sqlc); 
+		
 		
 		String sqlcommString = "SELECT F_INP_INFO FROM PRESS_RELEASE_FLOWC where PNO =  '"+convert.ToSql(PNO)+"' ";
 		String backString[][] = t.queryFromPool(sqlcommString);
@@ -74,7 +76,7 @@ public class Notify extends bNotify{
 		
 		content += "公司名稱:"+ret[0][0]+"<br>"; 
 
-		content += "簽核網址:<a href=\""+HRADDR.trim()+"\">按此連結</a><br>";
+		content += "簽核網址:<a href=\""+HRADDR[0][0].trim()+"\">按此連結</a><br>";
 		content += backMemoSring;
 		String usr[] = ((String[]) V2.toArray(new String[0]));
 		
