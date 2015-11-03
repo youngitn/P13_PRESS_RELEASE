@@ -7,14 +7,14 @@ public class Init extends hproc {
 	public String action(String value) throws Throwable {
 		// 可自定HTML版本各欄位的預設值與按鈕的動作
 		// 傳入值 value
-		
+
 		if (POSITION == 5) {
 
 			setVisible("SEND", false);
 			setVisible("QUERYPAGE", false);
-			setVisible("ATTACHMENT",false);
-			setVisible("PRESS_RELEASE_FILE",false);
-			setVisible("PRESS_RELEASE_FILE2",false);
+			setVisible("ATTACHMENT", false);
+			setVisible("PRESS_RELEASE_FILE", false);
+			setVisible("PRESS_RELEASE_FILE2", false);
 			talk t = getTalk();
 			String EMPID = getValue("EMPID");
 			String sql = "select HECNAME,DEPT_NO,DEP_NAME,CPNYID from USER_INFO_VIEW where EMPID = '"
@@ -50,8 +50,7 @@ public class Init extends hproc {
 			setValue("DOWLOAD", downloadString);
 
 		} else {
-			
-			
+
 			/*
 			 * talk t = getTalk(); String EMPID = getUser(); String sql =
 			 * "select HECNAME,DEPT_NO,DEP_NAME,CPNYID from USER_INFO_VIEW where EMPID = '"
@@ -64,7 +63,7 @@ public class Init extends hproc {
 			 * setValue("DATE",getToday("YYYYmmdd"));
 			 */
 		}
-		
+
 		return value;
 	}
 

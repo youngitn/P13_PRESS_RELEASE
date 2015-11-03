@@ -51,19 +51,21 @@ public class AddRun extends hproc {
 			for (String UPLOAD : UPLOADS_rel) {
 
 				File F1 = getUploadFile(UPLOAD);
-//				if (UPLOADS.size() == UPLOADS.indexOf(UPLOAD)) {
-//					c = "";
-//				}
+				// if (UPLOADS.size() == UPLOADS.indexOf(UPLOAD)) {
+				// c = "";
+				// }
 				if (F1 != null) {
 					UPLOAD_FIELD_SQL += c + UPLOAD;
-					UPLOAD_SQL += c + " '" + F1 + "' " ;
+					UPLOAD_SQL += c + " '" + F1 + "' ";
 
 				}
 
 			}
 
 			talk t = getTalk();
-			String sql = "Insert into PRESS_RELEASE (PNO,CPNYID,DATE,EMPID,DEPT_NO,REASON"+UPLOAD_FIELD_SQL+") VALUES ('"
+			String sql = "Insert into PRESS_RELEASE (PNO,CPNYID,DATE,EMPID,DEPT_NO,REASON"
+					+ UPLOAD_FIELD_SQL
+					+ ") VALUES ('"
 					+ getValue("PNO")
 					+ "','"
 					+ getValue("CPNYID")
@@ -73,10 +75,7 @@ public class AddRun extends hproc {
 					+ getValue("EMPID")
 					+ "','"
 					+ getValue("DEPT_NO")
-					+ "','"
-					+ getValue("REASON")
-					+ "'"
-					+ UPLOAD_SQL + ")";
+					+ "','" + getValue("REASON") + "'" + UPLOAD_SQL + ")";
 			String now = getNow();
 			String MUSER = getUser();
 			String sc1 = "insert into PRESS_RELEASE_FLOWC (PNO,F_INP_STAT,F_INP_ID,F_INP_TIME,F_INP_INFO) values ('"
