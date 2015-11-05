@@ -21,7 +21,19 @@ public class SendMailAll extends bProcFlow {
 		talk t = getTalk();
 		BaseService service = new BaseService();
 		MailService mail = new MailService(service);
+		// -----------------於網站維護確認關卡開方正式網址連結欄位
+		// 並在按下[核准]後處存進DB--------------------------->
+		if (getValue("LIVE_LINK").trim().length() == 0) {
+			message("請輸入正式連結網址!");
+			return false;
+		}
+		t.execFromPool("UPDATE PRESS_RELEASE SET PROCESS_STATE = '"
+				+ getValue("PROCESS_STATE") + "' , LIVE_LINK = '"
+				+ getValue("LIVE_LINK") + "' WHERE PNO = '" + getValue("PNO")
+				+ "'");
 
+		// -----------------於網站維護確認關卡開方正式網址連結欄位
+		// 並在按下[核准]後處存進DB---------------------------<
 		String aString = "";
 		String PNO = getValue("PNO").trim();
 		String CPNYID = getValue("CPNYID").trim();
@@ -60,26 +72,28 @@ public class SendMailAll extends bProcFlow {
 
 			String[][] ret = t.queryFromPool(sqlc);
 
-			content += "主旨:" + title + "\r\n";
+			content += "主旨:" + title + "<br>";
 
 			content += "收件人:" + peopleString + "-" + getName(peopleString)
-					+ "\r\n";
-			content += "申請人:" + EMPID.trim() + "-" + name.trim() + "\r\n";
+					+ "<br>";
+			content += "申請人:" + EMPID.trim() + "-" + name.trim() + "<br>";
 
-			content += "公司名稱:" + ret[0][0] + "\r\n";
+			content += "公司名稱:" + ret[0][0] + "<br>";
+
+			content += "新聞稿發佈網址連結:<a href=\"" + getValue("LIVE_LINK")+"\">按此連結</a><br>";;
 
 			email = service.getUserInfoBean(peopleString).getEmail();
 			String usr[] = { email };
 
 			sendRS = mail.sendMailbccUTF8(usr, title, content, null, "",
-					"text/plain");
+					"text/html");
 			// if send mail Sending Failed,isEmailAllSend will +1 for check.
 			if (!sendRS.trim().equals("")) {
 				isEmailAllSend++;
 			}
 
 		}
-
+		t.close();
 		if (isEmailAllSend != 0) {
 			message("EMAIL寄出失敗");
 			return false;
@@ -87,6 +101,7 @@ public class SendMailAll extends bProcFlow {
 		}
 
 		message("EMAIL已寄出通知");
+
 		return true;
 
 	}

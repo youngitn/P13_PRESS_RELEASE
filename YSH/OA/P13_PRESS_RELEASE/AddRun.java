@@ -30,8 +30,6 @@ public class AddRun extends hproc {
 			message("該表單已存在,請重起新單！");
 		} else if (getValue("REASON").trim().length() == 0) {
 			message("請輸入原因！");
-		} else if (getValue("LINK").trim().length() == 0) {
-			message("請輸入測試連結網址!");
 		} else {
 			String pno = getPNO(getToday("YYYYmmdd"), "PRESS_RELEASE");
 

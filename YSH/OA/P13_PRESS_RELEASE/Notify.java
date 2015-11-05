@@ -74,8 +74,8 @@ public class Notify extends bNotify {
 		}
 		String LINK = "";
 		
-		if (getState().equals("資訊主管")){
-			LINK = "測試網址連結:" + getValue("LINK").trim();
+		if (getState().equals("網站維護")){
+			LINK = "測試網址連結:<a href=\"" + getValue("LINK").trim()+"\">按此連結</a><br>";
 		}
 		
 		String title = "(" + EMPID + ")" + name + "之新聞稿發佈申請單( " + PNO + " ). "
