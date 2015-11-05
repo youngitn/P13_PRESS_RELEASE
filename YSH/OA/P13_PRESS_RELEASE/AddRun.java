@@ -30,6 +30,8 @@ public class AddRun extends hproc {
 			message("該表單已存在,請重起新單！");
 		} else if (getValue("REASON").trim().length() == 0) {
 			message("請輸入原因！");
+		} else if (getValue("LINK").trim().length() == 0) {
+			message("請輸入測試連結網址!");
 		} else {
 			String pno = getPNO(getToday("YYYYmmdd"), "PRESS_RELEASE");
 
@@ -78,17 +80,36 @@ public class AddRun extends hproc {
 					+ "','" + getValue("REASON") + "'" + UPLOAD_SQL + ")";
 			String now = getNow();
 			String MUSER = getUser();
+
+			// String boss_lv1[][] =
+			// t.queryFromPool("SELECT DEP_CHIEF FROM USER_INOFFICE_INFO_VIEW WHERE EMPID = '"+MUSER+"'");
+			// String GeneralManager[][] =
+			// t.queryFromPool("SELECT DEP_CHIEF FROM HRUSER_DEPT_BAS WHERE DEP_NO = '423'");
+			String SIGN_LV = "直屬主管";
+			// if (boss_lv1[0][0].equals(GeneralManager[0][0])){
+			// SIGN_LV = "總經理";
+			// }
+
 			String sc1 = "insert into PRESS_RELEASE_FLOWC (PNO,F_INP_STAT,F_INP_ID,F_INP_TIME,F_INP_INFO) values ('"
-					+ pno + "','待處理','" + MUSER + "','" + now + "','待處理')";
+					+ pno
+					+ "','"
+					+ SIGN_LV
+					+ "','"
+					+ MUSER
+					+ "','"
+					+ now
+					+ "','" + SIGN_LV + "')";
 			String sc2 = "insert into PRESS_RELEASE_FLOWC_HIS (PNO,F_INP_STAT,F_INP_ID,F_INP_TIME,F_INP_INFO) values ('"
 					+ pno + "','待處理','" + MUSER + "','" + now + "','待處理')";
+			String sc3 = "insert into PRESS_RELEASE_FLOWC_HIS (PNO,F_INP_STAT,F_INP_ID,F_INP_TIME,F_INP_INFO) values ('"
+					+ pno + "','直屬主管','" + MUSER + "','" + now + "','')";
 			// String
 			// sc3="insert into E_SALARY_SIGN_FLOWC_HIS (PNO,F_INP_STAT,F_INP_ID,F_INP_TIME,F_INP_INFO) values ('"+pno+"','單位主管','"+MUSER+"','"+now+"','')";
 
 			t.execFromPool(sql);
 			t.execFromPool(sc1);
 			t.execFromPool(sc2);
-			// t.execFromPool(sc3);
+			t.execFromPool(sc3);
 
 			t.close();
 			setEditable("SEND", false);

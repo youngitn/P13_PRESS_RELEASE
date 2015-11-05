@@ -68,10 +68,16 @@ public class Notify extends bNotify {
 		String backMemoSring = "";
 		if (backString[0][0].contains("退簽")) {
 			backTitleString = "已退簽";
-			backMemoSring = "簽核意見:" + getMemo() + "\r\n";
+			backMemoSring = "簽核意見:" + getMemo() + "<br>";
 		} else {
 			backTitleString = "並請進入eHR系統簽核";
 		}
+		String LINK = "";
+		
+		if (getState().equals("資訊主管")){
+			LINK = "測試網址連結:" + getValue("LINK").trim();
+		}
+		
 		String title = "(" + EMPID + ")" + name + "之新聞稿發佈申請單( " + PNO + " ). "
 				+ backTitleString;
 		String content = "";
@@ -88,12 +94,12 @@ public class Notify extends bNotify {
 		content += "公司名稱:" + ret[0][0] + "<br>";
 
 		content += "簽核網址:<a href=\"" + HRADDR[0][0].trim() + "\">按此連結</a><br>";
-		content += backMemoSring;
+		content += backMemoSring + LINK;
 		String usr[] = ((String[]) V2.toArray(new String[0]));
 
 		String sendRS = mail.sendMailbccUTF8(usr, title, content, null, "",
 				"text/html");
-
+		t.close();
 		if (sendRS.trim().equals("")) {
 			message("EMAIL已寄出通知");
 		} else {
