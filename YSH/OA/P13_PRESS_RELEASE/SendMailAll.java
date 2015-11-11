@@ -1,15 +1,12 @@
 package YSH.OA.P13_PRESS_RELEASE;
 
 //YSH/OA/P13_PRESS_RELEASE/SendMailAll;
-import jcx.jform.bProcFlow;
-import jcx.util.*;
-import jcx.db.*;
-
 import java.util.Arrays;
 import java.util.HashSet;
 
-
-
+import jcx.db.talk;
+import jcx.jform.bProcFlow;
+import jcx.util.convert;
 
 import com.ysp.service.BaseService;
 import com.ysp.service.MailService;
@@ -35,9 +32,6 @@ public class SendMailAll extends bProcFlow {
 				+ getValue("LIVE_LINK") + "' WHERE PNO = '" + getValue("PNO")
 				+ "'");
 
-		// -----------------於網站維護確認關卡開方正式網址連結欄位
-		// 並在按下[核准]後處存進DB---------------------------<
-		String aString = "";
 		String PNO = getValue("PNO").trim();
 		String CPNYID = getValue("CPNYID").trim();
 
@@ -45,8 +39,6 @@ public class SendMailAll extends bProcFlow {
 		String name;
 		String title;
 		String content = "";
-		String HRADDR = "";
-
 		String smtp = (String) get("SYSTEM.POP3");
 		if (smtp == null)
 			smtp = "www.interinfo.com.tw";
@@ -62,13 +54,9 @@ public class SendMailAll extends bProcFlow {
 		for (String peopleString : AllApprovePeople) {
 			// System.out.println("value=" + it.next().toString());
 			content = "";
-			aString += peopleString;
-
 			EMPID = getValue("EMPID").trim();
 			name = getName(EMPID);
 			title = "(" + EMPID + ")" + name + "之新聞稿發佈申請單( " + PNO + " ) 已結案";
-
-			HRADDR = (String) get("SYSTEM.HRADDR");
 
 			String sqlc = "select COCNAME from COMPANY where CPNYID = '"
 					+ convert.ToSql(CPNYID) + "'";

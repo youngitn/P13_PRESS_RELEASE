@@ -21,10 +21,11 @@ public class Init extends hproc {
 			if (getState().equals("網站維護") || getState().equals("網站維護確認") || getState().equals("資訊主管")){
 				setVisible("PROCESS_STATE", true);
 				setVisible("LINK", true);
-				
+				setValue("CLICK_LINK","<a href=\"http://"+getValue("LINK")+"\">按此連結開啟測試網址</a>");
 			}
 			if (getState().equals("網站維護確認")){
 				setVisible("LIVE_LINK", true);
+				setValue("CLICK_LINK","<a href=\"http://"+getValue("LINK")+"\">按此連結開啟測試網址</a>");
 			}
 			
 			talk t = getTalk();
@@ -60,8 +61,10 @@ public class Init extends hproc {
 						+ "\">新聞稿夾檔2 下載</a><br>";
 			}
 			setValue("DOWLOAD", downloadString);
+			
+			
 			//the way to change font-size,it's work!  
-			addScript("$('#DOWLOAD').find('a').attr('style','font-size:20;');");
+			addScript("$('#DOWLOAD').find('a').attr('style','font-size:20;');$('#CLICK_LINK').find('a').attr('style','font-size:20;');");
 			
 
 		} else {
