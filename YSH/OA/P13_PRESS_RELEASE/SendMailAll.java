@@ -2,15 +2,18 @@ package YSH.OA.P13_PRESS_RELEASE;
 
 //YSH/OA/P13_PRESS_RELEASE/SendMailAll;
 import jcx.jform.bProcFlow;
-
 import jcx.util.*;
 import jcx.db.*;
 
 import java.util.Arrays;
 import java.util.HashSet;
 
+
+
+
 import com.ysp.service.BaseService;
 import com.ysp.service.MailService;
+
 
 public class SendMailAll extends bProcFlow {
 
