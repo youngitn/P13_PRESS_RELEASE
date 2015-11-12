@@ -17,15 +17,19 @@ public class Init extends hproc {
 			setVisible("PRESS_RELEASE_FILE2", false);
 			setVisible("TEMPLATE", false);
 			setVisible("SAMPLE_AREA", false);
+			String http = "";
+			if (!getValue("LINK").trim().startsWith("http://") ){
+				http = "http://";
+			}
 			
 			if (getState().equals("網站維護") || getState().equals("網站維護確認") || getState().equals("資訊主管")){
 				setVisible("PROCESS_STATE", true);
 				setVisible("LINK", true);
-				setValue("CLICK_LINK","<a href=\"http://"+getValue("LINK")+"\">按此連結開啟測試網址</a>");
+				setValue("CLICK_LINK","<a href=\"" + http + getValue("LINK")+"\">按此連結開啟測試網址</a>");
 			}
 			if (getState().equals("網站維護確認")){
 				setVisible("LIVE_LINK", true);
-				setValue("CLICK_LINK","<a href=\"http://"+getValue("LINK")+"\">按此連結開啟測試網址</a>");
+				setValue("CLICK_LINK","<a href=\"" + http + getValue("LINK")+"\">按此連結開啟測試網址</a>");
 			}
 			
 			talk t = getTalk();
