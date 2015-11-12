@@ -71,9 +71,9 @@ public class SendMailAll extends bProcFlow {
 
 			content += "公司名稱:" + ret[0][0] + "<br>";
 
-			content += "新聞稿發佈網址連結:<a href=\"" + getValue("LIVE_LINK")+"\">按此連結</a><br>";;
-
-			email = service.getUserInfoBean(peopleString).getEmail();
+			content += "新聞稿發佈上線網址-瀏覽連結:<a href=\"" + getValue("LIVE_LINK")+"\">按此連結</a><br>";;
+			email = getEmail(peopleString);
+			//email = service.getUserInfoBean(peopleString).getEmail();
 			String usr[] = { email };
 
 			sendRS = mail.sendMailbccUTF8(usr, title, content, null, "",
