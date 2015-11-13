@@ -87,13 +87,18 @@ public class Notify extends bNotify {
 		if (vid.indexOf("admin") >= 0) {
 			vid.remove("admin");
 		}
-		content += "收件人:" + ((String) vid.elementAt(0)).trim() + "-"
-				+ getName((String) vid.elementAt(0)) + "<br>";
-		content += "申請人:" + EMPID.trim() + "-" + name.trim() + "<br>";
-
-		content += "公司名稱:" + ret[0][0] + "<br>";
-
-		content += "簽核網址:<a href=\"" + HRADDR[0][0].trim() + "\">按此連結</a><br>";
+		content = "請進入 eHR 系統簽核( <a href=\"" + HRADDR[0][0].trim() + "\">按此連結</a>)<br>";
+		content += "=========內容摘要=========<br>";
+		content += "單號:" +  getValue("PNO") + "<br>";
+		content += "申請日期:" +  getValue("DATE") + "<br>";
+		
+//		content += "收件人:" + ((String) vid.elementAt(0)).trim() + "-"
+//				+ getName((String) vid.elementAt(0)) + "<br>";
+//		content += "申請人:" + EMPID.trim() + "-" + name.trim() + "<br>";
+//
+//		content += "公司名稱:" + ret[0][0] + "<br>";
+//
+//		content += "簽核網址:<a href=\"" + HRADDR[0][0].trim() + "\">按此連結</a><br>";
 		content += backMemoSring + LINK;
 		String usr[] = ((String[]) V2.toArray(new String[0]));
 

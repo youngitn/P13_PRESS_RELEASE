@@ -1,17 +1,25 @@
 package YSH.OA.P13_PRESS_RELEASE;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import jcx.db.talk;
 import jcx.jform.hproc;
+import jcx.util.convert;
+import hr.common;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 
-import java.io.*;
+import com.ysp.service.BaseService;
+import com.ysp.service.MailService;
+
 
 public class AddRun extends hproc {
+	
+
 	public String action(String value) throws Throwable {
 
 		synchronized (this) {
@@ -108,10 +116,11 @@ public class AddRun extends hproc {
 			t.execFromPool(sc1);
 			t.execFromPool(sc2);
 			t.execFromPool(sc3);
-
+			sendMail(t, getValue("EMPID"));
 			t.close();
 			setEditable("SEND", false);
-			message("資料庫異動完成!");
+
+			// message("資料庫異動完成!");
 		}
 	}
 
@@ -137,4 +146,55 @@ public class AddRun extends hproc {
 		System.gc();
 		return pno;
 	}
+
+	public void sendMail(talk t, String empid) throws Throwable {
+		
+		String sqlc = "SELECT HRADDR FROM HRSYS";
+		String[][] HRADDR = t.queryFromPool(sqlc);
+		
+		String reEmpId = getBOS(t, empid);
+		String[] usr = { getEmail(reEmpId) };
+		String title1 = "";
+		String name = getName(empid);
+		String title = "主旨：(" + empid + ")" + name + "員工之新聞稿發佈申請單，請進入系統簽核"
+				+ title1.trim();
+		String content = "請進入 eHR 系統簽核( <a href=\"" + HRADDR[0][0].trim() + "\">按此連結</a>)<br>";
+		content += "=========內容摘要=========<br>";
+		content += "單號:" +  getValue("PNO") + "<br>";
+		content += "申請日期:" +  getValue("DATE") + "<br>";
+		BaseService service = new BaseService();
+		MailService mail = new MailService(service);
+		String sendRS = mail.sendMailbccUTF8(usr, title, content, null, "","text/html");
+		message("已通知簽核者!");
+		
+
+	}
+
+	public String getBOS(talk t, String EMPID) throws Throwable {
+		int level = 3;
+		String MASTER[][] = t.queryFromPool(
+				"select MASTERID from HRUSER where EMPID='"
+						+ convert.ToSql(EMPID.trim()) + "'", 30);
+		if (MASTER.length != 0) {
+			if (!MASTER[0][0].trim().equals("")) {
+				return MASTER[0][0].trim();
+			}
+		}
+		Vector v = null;
+		v = common.getBosses(t, EMPID.trim(), new Vector(), level);
+		for (int i = 0; i < v.size(); i++) {
+			String id1 = v.elementAt(i).toString().trim();
+			if (id1.trim().equals(""))
+				continue;
+			if (id1.trim().equals(EMPID.trim()))
+				continue;
+			return id1.trim();
+		}
+		/*
+		 * String BOSS=common.getBoss(EMPID.trim(),1);
+		 * if(BOSS.trim().length()!=0) return BOSS.trim();
+		 */
+		return "admin";
+	}
+
 }
