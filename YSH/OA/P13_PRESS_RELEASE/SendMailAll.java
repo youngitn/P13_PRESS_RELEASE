@@ -33,7 +33,6 @@ public class SendMailAll extends bProcFlow {
 				+ "'");
 
 		String PNO = getValue("PNO").trim();
-		String CPNYID = getValue("CPNYID").trim();
 
 		String EMPID;
 		String name;
@@ -58,18 +57,7 @@ public class SendMailAll extends bProcFlow {
 			name = getName(EMPID);
 			title = "(" + EMPID + ")" + name + "之新聞稿發佈申請單( " + PNO + " ) 已結案";
 
-			String sqlc = "select COCNAME from COMPANY where CPNYID = '"
-					+ convert.ToSql(CPNYID) + "'";
-
-			String[][] ret = t.queryFromPool(sqlc);
-
 			content += "主旨:" + title + "<br>";
-
-			content += "收件人:" + peopleString + "-" + getName(peopleString)
-					+ "<br>";
-			content += "申請人:" + EMPID.trim() + "-" + name.trim() + "<br>";
-
-			content += "公司名稱:" + ret[0][0] + "<br>";
 
 			content += "新聞稿發佈上線網址-瀏覽連結:<a href=\"" + getValue("LIVE_LINK")+"\">按此連結</a><br>";;
 			email = getEmail(peopleString);
