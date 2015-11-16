@@ -21,16 +21,11 @@ public class Notify extends bNotify {
 		if (vid.size() == 0)
 			return;
 		String PNO = getValue("PNO").trim();
-		String CPNYID = getValue("CPNYID").trim();
 		String EMPID = getValue("EMPID").trim();
 		getValue("DEPT_NO").trim();
 
 		String name = getName(EMPID);
 		talk t = getTalk();
-		String sqlc = "select COCNAME from COMPANY where CPNYID = '"
-				+ convert.ToSql(CPNYID) + "'";
-
-		String[][] ret = t.queryFromPool(sqlc);
 
 		service.getUserInfoBean(EMPID);
 		MailService mail = new MailService(service);
@@ -56,7 +51,7 @@ public class Notify extends bNotify {
 		String sender = (String) get("SYSTEM.SEMAIL");
 		if (sender == null)
 			sender = "admin@interinfo.com.tw";
-
+		String sqlc;
 		// get sign-page link url.
 		sqlc = "SELECT HRADDR FROM HRSYS";
 		String[][] HRADDR = t.queryFromPool(sqlc);
